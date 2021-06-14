@@ -1,3 +1,4 @@
+import { Button, ButtonGroup } from '@material-ui/core'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
@@ -64,6 +65,13 @@ export default function Home() {
           </span>
         </a>
       </footer>
+
+      <ButtonGroup color="primary" aria-label="outlined primary button group">
+  <Button>One</Button>
+  <Button>Two</Button>
+  <Button>Three</Button>
+</ButtonGroup>
+
     </div>
   )
 }
