@@ -56,44 +56,44 @@ install() {
 composer() {
     file_env 'DOCKER_USER' 'dokar'
     echo "run composer on user : ${DOCKER_USER}"
-    docker-compose run --rm --user=${DOCKER_USER} octane composer $@
+    docker compose run --rm --user=${DOCKER_USER} octane composer $@
 }
 
 shell() {
     file_env 'DOCKER_USER' 'dokar'
     echo "run shell on user : ${DOCKER_USER}"
-    docker-compose run --rm --user=${DOCKER_USER} octane bash
+    docker compose run --rm --user=${DOCKER_USER} octane bash
 }
 
 artisan() {
     file_env 'DOCKER_USER' 'dokar'
     echo "run artisan on user : ${DOCKER_USER}"
-    docker-compose run --rm --user=${DOCKER_USER} octane php artisan $@
+    docker compose run --rm --user=${DOCKER_USER} octane php artisan $@
 }
 
 npm() {
     file_env 'DOCKER_USER' 'dokar'
     echo "run npm on user : ${DOCKER_USER}"
-    docker-compose run --rm --user=${DOCKER_USER} octane npm $@
+    docker compose run --rm --user=${DOCKER_USER} octane npm $@
 }
 
 up() {
     echo "Nge up service $@..."
-    docker-compose up -d $@
+    docker compose up -d $@
 }
 
 down() {
     echo "Nge down all service..."
-    docker-compose down
+    docker compose down
 }
 
 dump-server() {
     echo "Nge dump server..."
-    docker-compose exec octane php artisan dump-server
+    docker compose exec octane php artisan dump-server
 }
 
 check() {
-    docker-compose ps
+    docker compose ps
 }
 
 # Check if the function exists (bash specific)
