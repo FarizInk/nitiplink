@@ -1,5 +1,5 @@
 <script>
-    import Modal from "./Modal.svelte";
+    import Modal from "../../Components/Modal.svelte"
     import {addNotif} from "../../Stores/notification";
     import {modalSignIn, modalSignUp, user, getUser} from "../../Stores/auth";
     import {useForm} from "@inertiajs/inertia-svelte";
@@ -12,7 +12,6 @@
     })
 
     const login = () => {
-        loading.set(true);
         $form.post(route('login'), {
             onSuccess: () => {
                 $form.reset();

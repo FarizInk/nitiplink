@@ -6,17 +6,19 @@
         "watch": "vite build --watch"
     },
     "devDependencies": {
+        "@rgossiaux/svelte-headlessui": "^1.0.2",
         "@sveltejs/vite-plugin-svelte": "^1.0.0-next.49",
+        "@tailwindcss/forms": "^0.5.3",
         "autoprefixer": "^10.4.4",
-        "axios": "^0.25",
-        "laravel-vite-plugin": "^0.3.0",
+        "axios": "^0.25.0",
+        "laravel-vite-plugin": "^0.6.1",
         "lodash": "^4.17.19",
         "postcss": "^8.4.12",
         "tailwindcss": "^3.0.23",
-        "vite": "^2.9.14"
+        "vite": "^3.0.4"
     },
     "dependencies": {
-        "@inertiajs/inertia": "^0.11.0",
+        "@inertiajs/inertia": "^0.11.1",
         "@inertiajs/inertia-svelte": "^0.8.0",
         "svelte": "^3.46.6",
         "svelte-loader": "^3.1.2"

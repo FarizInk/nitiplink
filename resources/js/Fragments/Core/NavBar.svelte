@@ -3,9 +3,9 @@
     import ModalSignIn from "./ModalSignIn.svelte";
     import {modalSignIn, modalSignUp, user} from "../../Stores/auth";
     import ModalSignUp from "./ModalSignUp.svelte";
-    import {modalGroup} from "../../Stores/main";
-    import ModalGroup from "./ModalGroup.svelte";
-    import SlideOver from "./SlideOver.svelte";
+    import {slideCommunity} from "../../Stores/main";
+    import SlideCommunity from "./SlideCommunity.svelte";
+    import ModalCreateCommunity from "./ModalCreateCommunity.svelte";
 
     const menu = [
         // {
@@ -96,7 +96,7 @@
                 <div class="flex-shrink-0 flex gap-2">
                     {#if $user !== null}
                         <button type="button"
-                                on:click={() => modalGroup.set(true)}
+                                on:click={() => slideCommunity.set(true)}
                                 class="relative inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                  class="-ml-1 mr-2 h-5 w-5">
@@ -107,7 +107,7 @@
                                     d="M5.082 14.254a8.287 8.287 0 00-1.308 5.135 9.687 9.687 0 01-1.764-.44l-.115-.04a.563.563 0 01-.373-.487l-.01-.121a3.75 3.75 0 013.57-4.047zM20.226 19.389a8.287 8.287 0 00-1.308-5.135 3.75 3.75 0 013.57 4.047l-.01.121a.563.563 0 01-.373.486l-.115.04c-.567.2-1.156.349-1.764.441z"/>
                             </svg>
 
-                            <span>Group</span>
+                            <span>Community</span>
                         </button>
                     {:else}
                         <button type="button"
@@ -205,5 +205,5 @@
 
 <ModalSignIn/>
 <ModalSignUp/>
-<ModalGroup/>
-<SlideOver/>
+<SlideCommunity/>
+<ModalCreateCommunity/>

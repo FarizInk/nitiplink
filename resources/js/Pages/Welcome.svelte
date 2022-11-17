@@ -1,4 +1,19 @@
-<div class="absolute w-[90vw] h-[90vh] left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-gradient-to-b from-yellow-500 to-orange-600 rounded-xl shadow-2xl flex flex-col justify-center items-center">
-    <h1 class="text-7xl font-bold text-white tracking-widest">LARAVELTE</h1>
-    <p class="mt-6 text-slate-100 text-xl">Cybernatically enhanced Laravel</p>
-</div>
+<script>
+    import AppLayout from "../Layouts/AppLayout.svelte";
+</script>
+
+<AppLayout>
+    <div class="min-h-full bg-white px-4 py-16 sm:px-6 sm:py-24 md:grid md:place-items-center lg:px-8">
+        <div class="mx-auto max-w-max">
+            <main class="sm:flex">
+                <p class="text-4xl font-bold tracking-tight text-indigo-600 sm:text-5xl">🙂</p>
+                <div class="sm:ml-6">
+                    <div class="sm:border-l sm:border-gray-200 sm:pl-6">
+                        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">Page under construction.</h1>
+                        <p class="mt-1 text-base text-gray-500">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</AppLayout>

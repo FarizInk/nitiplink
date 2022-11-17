@@ -2,8 +2,8 @@
 <script>
     import Modal from "../../Components/Modal.svelte"
     import {addNotif} from "../../Stores/notification";
-    import {getUser, modalSignIn, modalSignUp} from "../../Stores/auth";
-    import {loading} from "../../Stores/main";
+    import {loading, modalCreateCommunity} from "../../Stores/main";
+    import {onMount} from "svelte"
 
     import { useForm } from '@inertiajs/inertia-svelte'
 
@@ -14,40 +14,39 @@
         password: null
     })
 
-    const register = () => {
+    const create = () => {
         loading.set(true);
-        $form.post(route('register'), {
+        $form.post(route('community.create'), {
             onSuccess: () => {
                 $form.reset();
                 $form.errors = {};
-                getUser(true);
+                console.log('success create community')
             }
         })
     };
 
-    modalSignUp.subscribe((newVal) => {
+    modalCreateCommunity.subscribe((newVal) => {
         if (newVal) {
             $form.errors = {}
-            modalSignIn.set(false)
         }
     })
 </script>
 
-<Modal bind:isOpen={$modalSignUp} maxW="max-w-md">
+<Modal bind:isOpen={$modalCreateCommunity} maxW="max-w-md">
     <div class="m-8">
         <div class="flex justify-between">
-            <div class="text-center text-3xl font-extrabold text-1">Register</div>
+            <div class="text-center text-3xl font-extrabold text-1">Create Community</div>
         </div>
 
         <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <form class="space-y-6" on:submit|preventDefault={register}>
+            <form class="space-y-6" on:submit|preventDefault={create}>
                 <div>
-                    <label for="register-name" class="block text-md font-medium text-2"> Name </label>
+                    <label for="community-name" class="block text-md font-medium text-2"> Name </label>
                     <div class="mt-1">
                         <input
-                            id="register-name"
+                            id="community-name"
                             type="text"
-                            placeholder="Enter name here..."
+                            placeholder="Enter community name here..."
                             class="{$form.errors.name ? 'input-error' : ''} input input-sm"
                             bind:value={$form.name}
                         />
@@ -58,64 +57,16 @@
                 </div>
 
                 <div>
-                    <label for="register-email" class="block text-md font-medium text-2">
-                        Email address
-                    </label>
-                    <div class="mt-1">
-                        <input
-                            id="register-email"
-                            type="email"
-                            placeholder="Enter email here..."
-                            class="{$form.errors.email ? 'input-error' : ''} input input-sm"
-                            bind:value={$form.email}
-                        />
+                    <label for="community-prefix" class="block text-md font-medium text-2"> Prefix </label>
+                    <div class="mt-1 flex rounded-md shadow-sm">
+                        <span class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-3 text-gray-500 dark:text-gray-400 sm:text-sm">{window.location.origin + '/@'}</span>
+                        <input type="text" id="community-prefix" class="{$form.errors.name ? 'input-error' : ''} input input-sm rounded-tl-none rounded-bl-none" placeholder="devsign">
                     </div>
-                    {#if $form.errors.email}
-                        <div class="form-error">{$form.errors.email}</div>
-                    {/if}
                 </div>
 
-                <div>
-                    <label for="register-username" class="block text-md font-medium text-2"> Username </label>
-                    <div class="mt-1">
-                        <input
-                            id="register-username"
-                            type="text"
-                            placeholder="Enter username here..."
-                            class="{$form.errors.username ? 'input-error' : ''} input input-sm"
-                            bind:value={$form.username}
-                        />
-                    </div>
-                    {#if $form.errors.username}
-                        <div class="form-error">{$form.errors.username}</div>
-                    {/if}
-                </div>
-
-                <div>
-                    <label for="register-password" class="block text-md font-medium text-2"> Password </label>
-                    <div class="mt-1">
-                        <input
-                            id="register-password"
-                            type="password"
-                            class="{$form.errors.password ? 'input-error' : ''} input input-sm"
-                            bind:value={$form.password}
-                        />
-                    </div>
-                    {#if $form.errors.password}
-                        <div class="form-error">{$form.errors.password}</div>
-                    {/if}
-                </div>
-
-                <div class="flex justify-between items-center">
-                    <button
-                        type="button"
-                        class="font-medium text-indigo-600 hover:text-indigo-500"
-                        on:click={() => modalSignIn.set(true)}
-                    >
-                        Have account?
-                    </button>
-
-                    <button type="submit" class="btn-primary btn-md primary-color" disabled={$form.processing}>Sign Up</button>
+                <div class="flex justify-end items-center gap-2">
+                    <button type="submit" class="btn-primary btn-md primary-color" disabled={$form.processing}>Create!</button>
+                    <button type="button" class="btn-simple btn-md" disabled={$form.processing} on:click={() => modalCreateCommunity.set(false)}>Cancel</button>
                 </div>
             </form>
         </div>

@@ -1,6 +1,6 @@
 
 <script>
-    import Modal from "./Modal.svelte";
+    import Modal from "../../Components/Modal.svelte"
     import {addNotif} from "../../Stores/notification";
     import {getUser, modalSignIn, modalSignUp} from "../../Stores/auth";
     import {loading} from "../../Stores/main";
@@ -15,7 +15,6 @@
     })
 
     const register = () => {
-        loading.set(true);
         $form.post(route('register'), {
             onSuccess: () => {
                 $form.reset();
