@@ -1,9 +1,9 @@
 <script>
     import Modal from "../../Components/Modal.svelte"
     import {addNotif} from "../../Stores/notification";
-    import {modalSignIn, modalSignUp, user, getUser} from "../../Stores/auth";
-    import {useForm} from "@inertiajs/inertia-svelte";
-    import {loading} from "../../Stores/main";
+    import {useForm, page} from "@inertiajs/inertia-svelte";
+    import {loading, modalSignIn, modalSignUp} from "../../Stores/store";
+    import LoadingIcon from "../../Components/Icons/LoadingIcon.svelte";
 
     let form = useForm({
         username: null,
@@ -16,7 +16,7 @@
             onSuccess: () => {
                 $form.reset();
                 $form.errors = {};
-                getUser(true);
+                modalSignIn.set(false)
             }
         })
     };
@@ -30,7 +30,7 @@
 </script>
 
 
-<Modal bind:isOpen={$modalSignIn} maxW="max-w-md">
+<Modal bind:isOpen={$modalSignIn} maxW="max-w-md" forceClose={!$form.processing}>
     <div class="m-8">
         <div class="flex justify-between">
             <div class="text-center text-3xl font-extrabold text-1">Login</div>
@@ -64,6 +64,7 @@
                             placeholder="Enter username or email here..."
                             class="input input-sm"
                             bind:value={$form.username}
+                            disabled={$form.processing}
                         />
                     </div>
                 </div>
@@ -76,6 +77,7 @@
                             type="password"
                             class="input input-sm"
                             bind:value={$form.password}
+                            disabled={$form.processing}
                         />
                     </div>
                 </div>
@@ -87,9 +89,9 @@
                     </div>
 
                     <div class="text-sm">
-                        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
                             Forgot your password?
-                        </a>
+                        </button>
                     </div>
                 </div>
 
@@ -97,12 +99,17 @@
                     <button
                         type="button"
                         class="font-medium text-indigo-600 hover:text-indigo-500"
-                        on:click={() => modalSignUp.set(true)}
+                        on:click={() => $form.processing ? null : modalSignUp.set(true)}
                     >
                         Don't have account?
                     </button>
 
-                    <button type="submit" class="btn-primary btn-md primary-color">Sign in</button>
+                    <button type="submit" class="btn-primary btn-md primary-color" disabled={$form.processing}>
+                        {#if $form.processing || $loading}
+                            <LoadingIcon class="-ml-1 mr-2 h-4 w-4" />
+                        {/if}
+                        <span>Sign In</span>
+                    </button>
                 </div>
             </form>
         </div>

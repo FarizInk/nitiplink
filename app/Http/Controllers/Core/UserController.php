@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function getUser(): \Illuminate\Http\JsonResponse
+    public function data(): \Illuminate\Http\JsonResponse
     {
         return response()->json(auth()->user());
     }

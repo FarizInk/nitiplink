@@ -1,11 +1,11 @@
 <script>
-    import {Transition, Menu, MenuButton, MenuItems, MenuItem} from '@rgossiaux/svelte-headlessui';
+    import {Transition, Menu, MenuButton, MenuItems} from '@rgossiaux/svelte-headlessui';
     import ModalSignIn from "./ModalSignIn.svelte";
-    import {modalSignIn, modalSignUp, user} from "../../Stores/auth";
     import ModalSignUp from "./ModalSignUp.svelte";
-    import {slideCommunity} from "../../Stores/main";
+    import {slideCommunity, modalSignIn, modalSignUp} from "../../Stores/store";
     import SlideCommunity from "./SlideCommunity.svelte";
     import ModalCreateCommunity from "./ModalCreateCommunity.svelte";
+    import {page} from "@inertiajs/inertia-svelte";
 
     const menu = [
         // {
@@ -30,14 +30,13 @@
     ];
 
     let mobileMenu = false;
-    let auth = false;
 </script>
 
 <nav class="bg-gray-800">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 justify-between">
             <div class="flex">
-                {#if $user !== null || menu.length >= 1}
+                {#if $page.props.auth.user !== null || menu.length >= 1}
                     <div class="-ml-2 mr-2 flex items-center md:hidden">
                         <!-- Mobile menu button -->
                         <button type="button"
@@ -94,10 +93,10 @@
             </div>
             <div class="flex items-center">
                 <div class="flex-shrink-0 flex gap-2">
-                    {#if $user !== null}
+                    {#if $page.props.auth.user !== null}
                         <button type="button"
                                 on:click={() => slideCommunity.set(true)}
-                                class="relative inline-flex items-center rounded-md border border-transparent bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-800">
+                                class="btn-md btn-primary primary-color">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                  class="-ml-1 mr-2 h-5 w-5">
                                 <path fill-rule="evenodd"
@@ -122,7 +121,7 @@
                         </button>
                     {/if}
                 </div>
-                {#if $user !== null}
+                {#if $page.props.auth.user !== null}
                     <div class="hidden md:ml-4 md:flex md:flex-shrink-0 md:items-center">
                         <!-- Profile dropdown -->
 
@@ -132,8 +131,8 @@
                                         id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 <span class="sr-only">Open user menu</span>
                                 <img class="h-8 w-8 rounded-full"
-                                     src={`https://ui-avatars.com/api/?name=${encodeURI($user?.name)}&background=5046e5&color=fff`}
-                                     alt={$user?.name}>
+                                     src={`https://ui-avatars.com/api/?name=${encodeURI($page.props.auth.user?.name)}&background=5046e5&color=fff`}
+                                     alt={$page.props.auth.user?.name}>
                             </MenuButton>
 
                             <Transition
@@ -178,17 +177,17 @@
                     {/each}
                 </div>
             {/if}
-            {#if $user !== null}
+            {#if $page.props.auth.user !== null}
                 <div class="border-t border-gray-700 pt-4 pb-3">
                     <div class="flex items-center px-5 sm:px-6">
                         <div class="flex-shrink-0">
                             <img class="h-10 w-10 rounded-full"
-                                 src={`https://ui-avatars.com/api/?name=${encodeURI($user?.name)}&background=5046e5&color=fff`}
-                                 alt={$user?.name}>
+                                 src={`https://ui-avatars.com/api/?name=${encodeURI($page.props.auth.user?.name)}&background=5046e5&color=fff`}
+                                 alt={$page.props.auth.user?.name}>
                         </div>
                         <div class="ml-3">
-                            <div class="text-base font-medium text-white">{$user?.name}</div>
-                            <div class="text-sm font-medium text-gray-400">@{$user?.username}</div>
+                            <div class="text-base font-medium text-white">{$page.props.auth.user?.name}</div>
+                            <div class="text-sm font-medium text-gray-400">@{$page.props.auth.user?.username}</div>
                         </div>
                     </div>
                     <div class="mt-3 space-y-1 px-2 sm:px-3">

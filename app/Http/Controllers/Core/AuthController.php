@@ -34,10 +34,10 @@ class AuthController extends Controller
     public function register(Request $request): \Illuminate\Http\RedirectResponse
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'username' => 'required|min:3|unique:users',
-            'password' => 'required|min:8'
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:users|max:255',
+            'username' => 'required|min:3|unique:users|string|max:255|alpha_dash',
+            'password' => 'required|min:8|max:255'
         ]);
 
         $user = new User();

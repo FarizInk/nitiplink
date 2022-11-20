@@ -23,7 +23,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'photo',
+        'gender',
+        'date_of_birth',
+        'deleted_email',
+        'deleted_username',
     ];
+
+    protected $appends = ['hash'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -31,6 +38,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
+        'id',
         'password',
         'remember_token',
     ];
@@ -43,4 +51,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function communities(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Community::class, 'community_user', 'user_id', 'community_id')->withPivot(['role']);
+    }
 }

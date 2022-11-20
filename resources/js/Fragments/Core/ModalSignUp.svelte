@@ -2,8 +2,8 @@
 <script>
     import Modal from "../../Components/Modal.svelte"
     import {addNotif} from "../../Stores/notification";
-    import {getUser, modalSignIn, modalSignUp} from "../../Stores/auth";
-    import {loading} from "../../Stores/main";
+    import {loading, modalSignIn, modalSignUp} from "../../Stores/store";
+    import LoadingIcon from "../../Components/Icons/LoadingIcon.svelte";
 
     import { useForm } from '@inertiajs/inertia-svelte'
 
@@ -19,7 +19,7 @@
             onSuccess: () => {
                 $form.reset();
                 $form.errors = {};
-                getUser(true);
+                modalSignUp.set(false)
             }
         })
     };
@@ -32,7 +32,7 @@
     })
 </script>
 
-<Modal bind:isOpen={$modalSignUp} maxW="max-w-md">
+<Modal bind:isOpen={$modalSignUp} maxW="max-w-md" forceClose={!$form.processing}>
     <div class="m-8">
         <div class="flex justify-between">
             <div class="text-center text-3xl font-extrabold text-1">Register</div>
@@ -49,6 +49,7 @@
                             placeholder="Enter name here..."
                             class="{$form.errors.name ? 'input-error' : ''} input input-sm"
                             bind:value={$form.name}
+                            disabled={$form.processing}
                         />
                     </div>
                     {#if $form.errors.name}
@@ -67,6 +68,7 @@
                             placeholder="Enter email here..."
                             class="{$form.errors.email ? 'input-error' : ''} input input-sm"
                             bind:value={$form.email}
+                            disabled={$form.processing}
                         />
                     </div>
                     {#if $form.errors.email}
@@ -83,6 +85,7 @@
                             placeholder="Enter username here..."
                             class="{$form.errors.username ? 'input-error' : ''} input input-sm"
                             bind:value={$form.username}
+                            disabled={$form.processing}
                         />
                     </div>
                     {#if $form.errors.username}
@@ -98,6 +101,7 @@
                             type="password"
                             class="{$form.errors.password ? 'input-error' : ''} input input-sm"
                             bind:value={$form.password}
+                            disabled={$form.processing}
                         />
                     </div>
                     {#if $form.errors.password}
@@ -109,12 +113,17 @@
                     <button
                         type="button"
                         class="font-medium text-indigo-600 hover:text-indigo-500"
-                        on:click={() => modalSignIn.set(true)}
+                        on:click={() => $form.processing ? null : modalSignIn.set(true)}
                     >
                         Have account?
                     </button>
 
-                    <button type="submit" class="btn-primary btn-md primary-color" disabled={$form.processing}>Sign Up</button>
+                    <button type="submit" class="btn-primary btn-md primary-color" disabled={$form.processing}>
+                        {#if $form.processing || $loading}
+                            <LoadingIcon class="-ml-1 mr-2 h-4 w-4" />
+                        {/if}
+                        <span>Sign Up</span>
+                    </button>
                 </div>
             </form>
         </div>
