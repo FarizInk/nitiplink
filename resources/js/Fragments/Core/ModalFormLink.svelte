@@ -5,6 +5,7 @@
     import {loading, modalFormLink} from "../../Stores/store";
     import LoadingIcon from "../../Components/Icons/LoadingIcon.svelte";
     import InputTag from "../../Components/InputTag.svelte";
+    import {router} from "../../helpers";
 
     let form = useForm({
         url: null,
@@ -14,7 +15,7 @@
     let tagInputValue = null;
 
     const create = () => {
-        $form.post(route('community.link.create', {community_hash: $page.props.community?.hash}), {
+        $form.post(router('community.link.create', {community_hash: $page.props.community?.hash}), {
             onSuccess: () => {
                 $form.reset();
                 $form.errors = {};

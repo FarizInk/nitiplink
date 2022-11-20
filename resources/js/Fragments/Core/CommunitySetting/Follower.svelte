@@ -2,6 +2,7 @@
     import {spellReq} from "../../../helpers";
     import {page} from "@inertiajs/inertia-svelte";
     import {Inertia} from "@inertiajs/inertia";
+    import {router} from "../../../helpers";
 
     const roles = [
         {
@@ -25,7 +26,7 @@
 
     const update = (hash, role) => {
         console.log(hash, role)
-        Inertia.post(route('community.follower.update', {community_hash: $page.props.community.hash}), {
+        Inertia.post(router('community.follower.update', {community_hash: $page.props.community.hash}), {
             hash: hash,
             role: role
         })

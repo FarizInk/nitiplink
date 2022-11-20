@@ -4,7 +4,7 @@
     import {addNotif} from "../../Stores/notification";
     import {loading, modalSignIn, modalSignUp} from "../../Stores/store";
     import LoadingIcon from "../../Components/Icons/LoadingIcon.svelte";
-
+    import {router} from "../../helpers";
     import { useForm } from '@inertiajs/inertia-svelte'
 
     let form = useForm({
@@ -15,7 +15,7 @@
     })
 
     const register = () => {
-        $form.post(route('register'), {
+        $form.post(router('register'), {
             onSuccess: () => {
                 $form.reset();
                 $form.errors = {};

@@ -8,7 +8,7 @@
     import Overview from "./CommunitySetting/Overview.svelte";
     import Follower from "./CommunitySetting/Follower.svelte";
     import Webhook from "./CommunitySetting/Webhook.svelte";
-
+    import {router} from "../../helpers";
     import { useForm } from '@inertiajs/inertia-svelte'
 
     let form = useForm({
@@ -18,7 +18,7 @@
 
     const create = () => {
         loading.set(true);
-        $form.post(route('community.create'), {
+        $form.post(router('community.create'), {
             onSuccess: () => {
                 $form.reset();
                 $form.errors = {};

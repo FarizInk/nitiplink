@@ -4,6 +4,7 @@
     import {useForm, page} from "@inertiajs/inertia-svelte";
     import {loading, modalSignIn, modalSignUp} from "../../Stores/store";
     import LoadingIcon from "../../Components/Icons/LoadingIcon.svelte";
+    import {router} from "../../helpers";
 
     let form = useForm({
         username: null,
@@ -12,7 +13,7 @@
     })
 
     const login = () => {
-        $form.post(route('login'), {
+        $form.post(router('login'), {
             onSuccess: () => {
                 $form.reset();
                 $form.errors = {};

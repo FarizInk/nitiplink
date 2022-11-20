@@ -25,3 +25,9 @@ export function spellReq({ method = 'get', url, data = null, callbackRes, callba
         .catch((error) => (!callbackErr) ? handleAxiosError() : callbackErr(error) )
         .finally(() => loading.set(false));
 }
+
+export function router(name, param = null) {
+    const rawRoute = route(name, param);
+    const regex = /^(http|https):\/\/[^:\/]+(?::(\d+))?/;
+    return rawRoute.replace(rawRoute.match(regex)[1], location.protocol.slice(0, -1));
+}

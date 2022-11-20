@@ -6,6 +6,7 @@
     import ModalFormLink from "../Fragments/Core/ModalFormLink.svelte";
     import {Inertia} from "@inertiajs/inertia";
     import ModalSettingCommunity from "../Fragments/Core/ModalSettingCommunity.svelte";
+    import {router} from "../helpers";
 
     console.log($page.props)
 
@@ -18,12 +19,12 @@
         if ($page.props.auth.user === null) {
             modalSignIn.set(true);
         } else {
-            Inertia.post(route('community.follow', {community_hash: $page.props.community.hash}))
+            Inertia.post(router('community.follow', {community_hash: $page.props.community.hash}))
         }
     }
 
     const unfollow = () => {
-        Inertia.post(route('community.unfollow', {community_hash: $page.props.community.hash}))
+        Inertia.post(router('community.unfollow', {community_hash: $page.props.community.hash}))
     }
 </script>
 

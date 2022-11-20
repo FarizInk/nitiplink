@@ -5,6 +5,7 @@
     import {loading, modalCreateCommunity} from "../../Stores/store";
     import {onMount} from "svelte"
     import LoadingIcon from "../../Components/Icons/LoadingIcon.svelte";
+    import {router} from "../../helpers";
 
     import { useForm } from '@inertiajs/inertia-svelte'
 
@@ -15,7 +16,7 @@
 
     const create = () => {
         loading.set(true);
-        $form.post(route('community.create'), {
+        $form.post(router('community.create'), {
             onSuccess: () => {
                 $form.reset();
                 $form.errors = {};

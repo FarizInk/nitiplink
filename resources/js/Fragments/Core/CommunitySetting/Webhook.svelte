@@ -1,14 +1,13 @@
 <script>
-import {spellReq} from "../../../helpers";
+import {spellReq, router} from "../../../helpers";
 import {page, useForm} from "@inertiajs/inertia-svelte";
 import LoadingIcon from "../../../Components/Icons/LoadingIcon.svelte";
-import {modalSignIn} from "../../../Stores/store";
 import {Inertia} from "@inertiajs/inertia";
 
 let data = [];
 const getData = () => {
     spellReq({
-        url: route("community.webhook.get", {community_hash: $page.props.community.hash}),
+        url: router("community.webhook.get", {community_hash: $page.props.community.hash}),
         callbackRes: (response) => data = response.data
     })
 }
@@ -20,7 +19,7 @@ let form = useForm({
 })
 
 const create = () => {
-    $form.post(route('community.webhook.create', {community_hash: $page.props.community.hash}), {
+    $form.post(router('community.webhook.create', {community_hash: $page.props.community.hash}), {
         onSuccess: () => {
             $form.reset();
             $form.errors = {};
@@ -30,7 +29,7 @@ const create = () => {
 }
 
 const destroy = (hash) => {
-    Inertia.delete(route('community.webhook.delete', {community_hash: $page.props.community.hash, hash: hash }), {
+    Inertia.delete(router('community.webhook.delete', {community_hash: $page.props.community.hash, hash: hash }), {
         onSuccess: () => getData()
     })
 }
