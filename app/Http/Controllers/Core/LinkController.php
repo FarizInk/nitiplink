@@ -39,38 +39,56 @@ class LinkController extends Controller
         }
         $link->tags()->sync($tagsId);
 
+        $community->load("webhooks");
+        foreach ($community->webhooks as $webhook) {
+            $this->sendWebhook(
+                $webhook->url,
+                auth()->user()->name . " added new link!",
+                $request->url,
+                $request->note,
+                $request->tags,
+                $community->name,
+                $community->prefix,
+                auth()->user()->name,
+                $link->created_at
+            );
+        }
+
+        return redirect()->back();
+    }
+
+    public function sendWebhook($url, $content, $title, $description, $tags, $communityName, $communityPrefix, $userName, $createdAt): bool|string
+    {
         $data = [
-            "content" => auth()->user()->name . " added new link!",
+            "content" => $content,
             "embeds" => [
                 [
-                    "title" => $request->url,
-                    "description" => $request->note,
+                    "title" => $title,
+                    "description" => $description,
                     "color" => 5261029,
                     "fields" => [
                         [
                             "name" => "Tags",
-                            "value" => count($request->tags) >= 1 ? implode(", ", $request->tags) : "`no tags.`",
+                            "value" => count($tags) >= 1 ? implode(", ", $tags) : "`no tags.`",
                         ],
                     ],
                     "author" => [
-                        "name" => $community->name,
-                        "url" => URL::to('/@' . $community->prefix),
-                        "icon_url" => "https://ui-avatars.com/api/?name=" . urlencode($community->name) . "&background=5046e5&color=fff",
+                        "name" => $communityName,
+                        "url" => URL::to('/@' . $communityPrefix),
+                        "icon_url" => "https://ui-avatars.com/api/?name=" . urlencode($communityName) . "&background=5046e5&color=fff",
                     ],
                     "footer" => [
-                        "text" => auth()->user()->name,
-                        "icon_url" => "https://ui-avatars.com/api/?name=" . urlencode(auth()->user()->name) . "&background=5046e5&color=fff",
+                        "text" => $userName,
+                        "icon_url" => "https://ui-avatars.com/api/?name=" . urlencode($userName) . "&background=5046e5&color=fff",
                     ],
-                    "timestamp" => Carbon::parse($link->created_at)->toDateTimeString()
+                    "timestamp" => Carbon::parse($createdAt)->toDateTimeString()
                 ]
             ],
         ];
-        $curl = curl_init("https://discord.com/api/webhooks/1043885952780730418/oHJSSubH8ifFzRCgvmalt4SDwRe0bp8ZMZGEYyIJhr7FKier1BtI5x_s3sJgNJtQke2g");
+        $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $result = curl_exec($curl);
-
-        return redirect()->back();
+        return curl_exec($curl);
     }
 }

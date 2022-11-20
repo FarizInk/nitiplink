@@ -19,4 +19,9 @@ class Community extends Model
     {
         return $this->belongsToMany(User::class, 'community_user', 'community_id', 'user_id')->withPivot(['role']);
     }
+
+    public function webhooks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Webhook::class);
+    }
 }

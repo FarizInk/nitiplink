@@ -3,12 +3,12 @@
     import {slideCommunity, modalCreateCommunity} from "../../Stores/store";
     import {communities} from "../../Stores/store";
     import {InertiaLink, Link} from "@inertiajs/inertia-svelte"
-    import {spellReq} from "../../helpers";
+    import {spellReq, router} from "../../helpers";
 
     slideCommunity.subscribe((newVal) => {
         if (newVal) {
             spellReq({
-                url: route("community.get"),
+                url: router('community.get'),
                 callbackRes: (response) => communities.set(response.data)
             })
         }

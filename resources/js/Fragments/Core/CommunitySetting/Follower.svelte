@@ -43,7 +43,7 @@
     let data = [];
     const getData = () => {
         spellReq({
-            url: route("community.follower.get", {community_hash: $page.props.community.hash}),
+            url: router('community.follower.get', {community_hash: $page.props.community.hash}),
             callbackRes: (response) => data = response.data
         })
     }
