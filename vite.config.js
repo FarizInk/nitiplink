@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import laravel from 'laravel-vite-plugin';
+import path from "path";
 
 export default defineConfig({
     plugins: [
@@ -15,5 +16,10 @@ export default defineConfig({
             "@inertiajs/inertia",
             "@inertiajs/inertia-svelte",
         ]
-    }
+    },
+    resolve:{
+        alias:{
+            '@' : path.resolve(__dirname, './resources/js')
+        },
+    },
 });
