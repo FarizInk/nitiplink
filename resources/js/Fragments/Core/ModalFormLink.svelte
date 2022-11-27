@@ -16,7 +16,7 @@
 
   const submit = () => {
     if ($selectedLink === null) {
-      $form.post(router('community.link.create', {community_hash: $page.props.community?.hash}), {
+      $form.post(router('community.link.create', {community: $page.props.community?.hash}), {
         onSuccess: () => {
           $form.reset();
           $form.errors = {};

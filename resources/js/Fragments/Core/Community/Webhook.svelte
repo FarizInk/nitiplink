@@ -7,7 +7,7 @@
   let data = [];
   const getData = () => {
     spellReq({
-      url: router("community.webhook.get", {community_hash: $page.props.community.hash}),
+      url: router("community.webhook.get", {community: $page.props.community.hash}),
       callbackRes: (response) => data = response.data
     })
   }
@@ -19,7 +19,7 @@
   })
 
   const create = () => {
-    $form.post(router('community.webhook.create', {community_hash: $page.props.community.hash}), {
+    $form.post(router('community.webhook.create', {community: $page.props.community.hash}), {
       onSuccess: () => {
         $form.reset();
         $form.errors = {};
@@ -29,7 +29,7 @@
   }
 
   const destroy = (hash) => {
-    Inertia.delete(router('community.webhook.delete', {community_hash: $page.props.community.hash, hash: hash}), {
+    Inertia.delete(router('community.webhook.delete', {community: $page.props.community.hash, hash: hash}), {
       onSuccess: () => getData()
     })
   }

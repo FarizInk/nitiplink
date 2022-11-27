@@ -12,12 +12,12 @@
     if ($page.props.auth.user === null) {
       modalSignIn.set(true);
     } else {
-      Inertia.post(router('community.follow', {community_hash: $page.props.community.hash}))
+      Inertia.post(router('community.follow', {community: $page.props.community.hash}))
     }
   }
 
   const unfollow = () => {
-    Inertia.post(router('community.unfollow', {community_hash: $page.props.community.hash}))
+    Inertia.post(router('community.unfollow', {community: $page.props.community.hash}))
   }
 </script>
 

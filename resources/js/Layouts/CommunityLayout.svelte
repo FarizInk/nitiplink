@@ -16,7 +16,7 @@
 
   export let title = null;
   export let buttonBack = false;
-  console.log(title, buttonBack);
+  export let maxW = 'max-w-4xl'
 </script>
 
 <div>
@@ -230,7 +230,7 @@
     <main class="flex-1 bg-white dark:bg-gray-900 min-h-screen">
       <div class="py-6">
         {#if title !== null}
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-3 flex gap-2 items-center">
+        <div class="mx-auto {maxW} px-4 sm:px-6 lg:px-8 mb-3 flex gap-2 items-center">
           {#if history.length >= 1 && buttonBack}
             <button class="rounded-full p-2 btn-md btn-primary primary-color" on:click={() => history.back()}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
@@ -243,7 +243,7 @@
           <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{title}</h1>
         </div>
         {/if}
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
+        <div class="mx-auto {maxW} px-4 sm:px-6 md:px-8">
           <!-- Replace with your content -->
           <slot />
           <!-- /End replace -->

@@ -26,7 +26,7 @@
 
   const update = (hash, role) => {
     console.log(hash, role)
-    Inertia.post(router('community.follower.update', {community_hash: $page.props.community.hash}), {
+    Inertia.post(router('community.follower.update', {community: $page.props.community.hash}), {
       hash: hash,
       role: role
     })
@@ -43,7 +43,7 @@
   let data = [];
   const getData = () => {
     spellReq({
-      url: router('community.follower.get', {community_hash: $page.props.community.hash}),
+      url: router('community.follower.get', {community: $page.props.community.hash}),
       callbackRes: (response) => data = response.data
     })
   }
