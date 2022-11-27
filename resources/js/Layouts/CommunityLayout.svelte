@@ -227,7 +227,7 @@
         </svg>
       </button>
     </div>
-    <main class="flex-1">
+    <main class="flex-1 bg-white dark:bg-gray-900 min-h-screen">
       <div class="py-6">
         {#if title !== null}
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-3 flex gap-2 items-center">
@@ -240,7 +240,7 @@
               </svg>
             </button>
           {/if}
-          <h1 class="text-2xl font-semibold text-gray-900">{title}</h1>
+          <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{title}</h1>
         </div>
         {/if}
         <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">

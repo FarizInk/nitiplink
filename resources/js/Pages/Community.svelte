@@ -23,11 +23,11 @@
         <p class="mt-1 text-sm text-gray-500">Get started by adding a new link.</p>
       </div>
     {:else}
-      <div class="bg-white shadow overflow-hidden sm:rounded-md w-full">
-        <ul class="divide-y divide-gray-200">
+      <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-md w-full">
+        <ul class="divide-y divide-gray-200 dark:divide-gray-700">
           {#each $page.props.links as link, i}
             <li>
-              <div class="block hover:bg-gray-50 w-full">
+              <div class="block hover:bg-gray-50 dark:hover:bg-gray-700 w-full">
                 <div class="px-4 py-4 flex items-center sm:px-6">
                   <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                     <div class="truncate">
@@ -37,7 +37,7 @@
                       <div class="mt-2 flex">
                         <div class="flex items-center gap-2 text-sm text-gray-500">
                           <img
-                            class="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                            class="inline-block h-6 w-6 rounded-full"
                             src={`https://ui-avatars.com/api/?name=${encodeURI(link.creator.name)}&background=5046e5&color=fff`}
                             alt={link.creator.name}
                           />
