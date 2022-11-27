@@ -9,23 +9,21 @@ use Illuminate\Http\Request;
 
 class WebhookController extends Controller
 {
-    public function get($community_hash)
+    public function get(Community $community): \Illuminate\Http\JsonResponse
     {
-        $webhooks = Webhook::query()->where('community_id', Community::hashToId($community_hash))->get();
+        $webhooks = Webhook::query()->where('community_id', $community->id)->get();
         return response()->json($webhooks);
     }
 
-    public function create(Request $request, $community_hash)
+    public function create(Request $request, Community $community)
     {
         $request->validate([
             'name' => 'required',
             'url' => 'required|url',
         ]);
 
-        $communityId = Community::hashToId($community_hash);
-
         $webhook = new Webhook();
-        $webhook->community_id = $communityId;
+        $webhook->community_id = $community->id;
         $webhook->name = $request->name;
         $webhook->type = 'discord';
         $webhook->url = $request->url;
@@ -34,10 +32,11 @@ class WebhookController extends Controller
         return redirect()->back();
     }
 
-    public function delete($community_hash, $hash): \Illuminate\Http\RedirectResponse
+    public function delete(Community $community, Webhook $webhook): \Illuminate\Http\RedirectResponse
     {
-        $webhook = Webhook::byHash($hash);
-        $webhook->delete();
+        if ($community->id === $webhook->community_id) {
+            $webhook->delete();
+        }
 
         return redirect()->back();
     }

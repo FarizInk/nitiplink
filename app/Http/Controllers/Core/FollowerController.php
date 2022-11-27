@@ -9,16 +9,14 @@ use Illuminate\Http\Request;
 
 class FollowerController extends Controller
 {
-    public function get($community_hash): \Illuminate\Http\JsonResponse
+    public function get(Community $community): \Illuminate\Http\JsonResponse
     {
-        $community = Community::byHash($community_hash);
         $community->load('users');
         return response()->json($community->users);
     }
 
-    public function update(Request $request, $community_hash)
+    public function update(Request $request, Community $community)
     {
-        $community = Community::byHash($community_hash);
         $user = User::byHash($request->hash);
 
         if ($community && $user) {

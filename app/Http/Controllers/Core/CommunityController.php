@@ -3,12 +3,25 @@
 namespace App\Http\Controllers\Core;
 
 use App\Enums\CommunityRole;
+use App\Helpers\CommunityHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Community;
+use App\Models\CommunityUser;
+use App\Models\Link;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CommunityController extends Controller
 {
+    public function indexPage($prefix): \Inertia\Response|\Inertia\ResponseFactory
+    {
+        $baseData = CommunityHelper::getBaseData($prefix);
+        $links = Link::query()->where('community_id', $baseData['community']->id)->with(['creator', 'tags'])->orderBy('created_at', 'desc')->get();
+        return Inertia::render('Community', array_merge([
+            'links' => $links,
+        ], $baseData));
+    }
+
     public function get(): \Illuminate\Http\JsonResponse
     {
         $communities = Community::query()->whereHas('users', function ($query) {
@@ -18,17 +31,15 @@ class CommunityController extends Controller
         return response()->json($communities);
     }
 
-    public function follow($community_hash)
+    public function follow(Community $community)
     {
-        $community = Community::byHash($community_hash);
         $community->users()->attach(auth()->user()->id, [
             'role' => $community->created_by === auth()->user()->id ? CommunityRole::Owner : CommunityRole::Follower,
         ]);
     }
 
-    public function unfollow($community_hash): \Illuminate\Http\RedirectResponse
+    public function unfollow(Community $community): \Illuminate\Http\RedirectResponse
     {
-        $community = Community::byHash($community_hash);
         $community->users()->detach(auth()->user()->id);
 
         return redirect()->back();

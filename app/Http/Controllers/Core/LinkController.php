@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Core;
 
+use App\Helpers\CommunityHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Community;
 use App\Models\Link;
@@ -9,18 +10,43 @@ use App\Models\Tag;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
+use Inertia\Inertia;
 
 class LinkController extends Controller
 {
-    public function create(Request $request, $community_hash): \Illuminate\Http\RedirectResponse
+    public function detailPage($prefix, $link_hash): \Inertia\Response|\Inertia\ResponseFactory
     {
-        $request->validate([
+        $baseData = CommunityHelper::getBaseData($prefix);
+        return Inertia::render('DetailLink', array_merge([
+            'link' => Link::byHash($link_hash)?->load(['creator', 'tags']),
+        ], $baseData));
+    }
+
+    private function validation(): array
+    {
+        return [
             'url' => 'required|url',
             'note' => 'nullable',
             'tags' => 'array',
-        ]);
+        ];
+    }
 
-        $community = Community::byHash($community_hash);
+    private function firstOrCreate($tags)
+    {
+        $data = [];
+        foreach ($tags as $tag) {
+            $tag = Tag::query()->firstOrCreate([
+                'name' => strtolower($tag),
+            ]);
+            $data[] = $tag->id;
+        }
+
+        return $data;
+    }
+
+    public function create(Request $request, Community $community): \Illuminate\Http\RedirectResponse
+    {
+        $request->validate($this->validation());
 
         $link = new Link();
         $link->url = $request->url;
@@ -30,14 +56,7 @@ class LinkController extends Controller
         $link->community_id = $community->id;
         $link->save();
 
-        $tagsId = [];
-        foreach ($request->tags as $tag) {
-            $tag = Tag::query()->firstOrCreate([
-                'name' => strtolower($tag),
-            ]);
-            $tagsId[] = $tag->id;
-        }
-        $link->tags()->sync($tagsId);
+        $link->tags()->sync($this->firstOrCreate($request->tags));
 
         $community->load("webhooks");
         foreach ($community->webhooks as $webhook) {
@@ -55,6 +74,28 @@ class LinkController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function update(Request $request, Community $community, Link $link): \Illuminate\Http\RedirectResponse
+    {
+        $request->validate($this->validation());
+        $link->url = $request->url;
+        $link->note = $request->note;
+        $link->updated_by = auth()->user()->id;
+        $link->save();
+
+        $link->tags()->sync($this->firstOrCreate($request->tags));
+
+        return redirect()->back();
+    }
+
+    public function delete(Community $community, Link $link): \Illuminate\Http\RedirectResponse
+    {
+        if ($community->id === $link->community_id) {
+            $link->delete();
+        }
+
+        return redirect()->route('app.community', '@' . $community->prefix);
     }
 
     public function sendWebhook($url, $content, $title, $description, $tags, $communityName, $communityPrefix, $userName, $createdAt): bool|string
