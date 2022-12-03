@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', fn () => inertia('Welcome'))->name('landing');
 Route::post('/login', [\App\Http\Controllers\Core\AuthController::class, 'login'])->name('login');
 Route::post('/register', [\App\Http\Controllers\Core\AuthController::class, 'register'])->name('register');
-Route::get('/logout', [\App\Http\Controllers\Core\AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [\App\Http\Controllers\Core\AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->prefix('api/private')->group(function () {
     Route::get('/user', [\App\Http\Controllers\Core\UserController::class, 'data']);
@@ -51,4 +51,7 @@ Route::middleware('auth')->prefix('api/private')->group(function () {
 Route::middleware('app.community')->prefix('/{prefix}')->group(function () {
     Route::get('/', [\App\Http\Controllers\Core\CommunityController::class, 'indexPage'])->name('app.community');
     Route::get('/{link}', [\App\Http\Controllers\Core\LinkController::class, 'detailPage'])->name('app.community.link.detail');
+    Route::name('setting.')->prefix('setting')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Core\SettingController::class, 'get'])->name('get');
+    });
 });

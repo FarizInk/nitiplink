@@ -1,65 +1,55 @@
 <script>
-  import Profile from "@/Fragments/Core/Community/Profile.svelte";
+  import Sidebar from "@/Fragments/Core/Community/Sidebar.svelte";
   import ModalSettingCommunity from "@/Fragments/Core/ModalSettingCommunity.svelte";
   import ModalFormLink from "@/Fragments/Core/ModalFormLink.svelte";
   import SlideCommunity from "@/Fragments/Core/SlideCommunity.svelte";
   import ModalCreateCommunity from "@/Fragments/Core/ModalCreateCommunity.svelte";
   import ModalSignIn from "@/Fragments/Core/ModalSignIn.svelte";
   import ModalSignUp from "@/Fragments/Core/ModalSignUp.svelte";
-
-  const menu = [
-    // {
-    //     name: 'User',
-    //     url: '/user'
-    // },
-  ];
+  import {Transition, TransitionChild} from '@rgossiaux/svelte-headlessui';
 
   export let title = null;
   export let buttonBack = false;
   export let maxW = 'max-w-4xl'
+  let isOpen = false;
 </script>
 
 <div>
-  <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-  <div class="relative z-40 md:hidden" role="dialog" aria-modal="true">
-    <!--
-      Off-canvas menu backdrop, show/hide based on off-canvas menu state.
-
-      Entering: "transition-opacity ease-linear duration-300"
-        From: "opacity-0"
-        To: "opacity-100"
-      Leaving: "transition-opacity ease-linear duration-300"
-        From: "opacity-100"
-        To: "opacity-0"
-    -->
-    <div class="fixed inset-0 bg-gray-600 bg-opacity-75" />
+  <Transition appear show={isOpen} class="relative z-40 md:hidden">
+    <TransitionChild
+      enter="transition-opacity ease-linear duration-300"
+      enterFrom="opacity-0"
+      enterTo="opacity-100"
+      leave="transition-opacity ease-linear duration-300"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
+      class="fixed inset-0 bg-gray-600 bg-opacity-75"
+    >
+    </TransitionChild>
 
     <div class="fixed inset-0 z-40 flex">
-      <!--
-        Off-canvas menu, show/hide based on off-canvas menu state.
-
-        Entering: "transition ease-in-out duration-300 transform"
-          From: "-translate-x-full"
-          To: "translate-x-0"
-        Leaving: "transition ease-in-out duration-300 transform"
-          From: "translate-x-0"
-          To: "-translate-x-full"
-      -->
-      <div class="relative flex w-full max-w-xs flex-1 flex-col bg-gray-800">
-        <!--
-          Close button, show/hide based on off-canvas menu state.
-
-          Entering: "ease-in-out duration-300"
-            From: "opacity-0"
-            To: "opacity-100"
-          Leaving: "ease-in-out duration-300"
-            From: "opacity-100"
-            To: "opacity-0"
-        -->
-        <div class="absolute top-0 right-0 -mr-12 pt-2">
+      <TransitionChild
+        enter="transition ease-in-out duration-300 transform"
+        enterFrom="-translate-x-full"
+        enterTo="translate-x-0"
+        leave="transition ease-in-out duration-300 transform"
+        leaveFrom="translate-x-0"
+        leaveTo="-translate-x-full"
+        class="relative flex w-full max-w-xs flex-1 flex-col bg-gray-800"
+      >
+        <TransitionChild
+          enter="ease-in-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in-out duration-300"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          class="absolute top-0 right-0 -mr-12 pt-2"
+        >
           <button
+            on:click={() => isOpen = false}
             type="button"
-            class="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            class="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:ousticky top-0 z-10 sm:pl-3 sm:pt-3 md:hiddentline-none focus:ring-2 focus:ring-inset focus:ring-white"
           >
             <span class="sr-only">Close sidebar</span>
             <!-- Heroicon name: outline/x-mark -->
@@ -79,132 +69,29 @@
               />
             </svg>
           </button>
-        </div>
-        <div class="flex-shrink-0">
-          <Profile/>
-        </div>
-        <div class="h-0 flex-1 overflow-y-auto pt-5 pb-4">
-          <nav class="space-y-1 px-2">
-            <!-- selected class: bg-gray-900 text-white group flex items-center px-2 py-2 text-base font-medium rounded-md -->
-            {#each menu as item, i }
-            <a
-              href={item.url}
-              class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-base font-medium rounded-md"
-            >
-              <!-- Heroicon name: outline/users -->
-              <svg
-                class="text-gray-400 group-hover:text-gray-300 mr-4 flex-shrink-0 h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
-                />
-              </svg>
-              {item.name}
-            </a>
-            {/each}
-          </nav>
-        </div>
-        <div class="flex flex-shrink-0 bg-gray-700 p-4">
-          <a href="#" class="group block flex-shrink-0">
-            <div class="flex items-center">
-              <div>
-                <img
-                  class="inline-block h-10 w-10 rounded-full"
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt=""
-                />
-              </div>
-              <div class="ml-3">
-                <p class="text-base font-medium text-white">Tom Cook</p>
-                <p
-                  class="text-sm font-medium text-gray-400 group-hover:text-gray-300"
-                >
-                  View profile
-                </p>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
+        </TransitionChild>
+        <Sidebar/>
+      </TransitionChild>
 
       <div class="w-14 flex-shrink-0">
         <!-- Force sidebar to shrink to fit close icon -->
       </div>
     </div>
-  </div>
+  </Transition>
 
   <!-- Static sidebar for desktop -->
   <div class="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
     <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div class="flex min-h-0 flex-1 flex-col bg-gray-800">
-      <div class="flex-shrink-0">
-        <Profile/>
-      </div>
-      <div class="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
-        <nav class="flex-1 space-y-1 px-2">
-          <!-- selected class: bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md -->
-          {#each menu as item, i }
-            <a
-            href={item.url}
-            class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-          >
-            <!-- Heroicon name: outline/users -->
-            <svg
-              class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"
-              />
-            </svg>
-            {item.name}
-          </a>
-          {/each}
-        </nav>
-      </div>
-      <div class="flex flex-shrink-0 bg-gray-700 p-4">
-        <a href="#" class="group block w-full flex-shrink-0">
-          <div class="flex items-center">
-            <div>
-              <img
-                class="inline-block h-9 w-9 rounded-full"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-              />
-            </div>
-            <div class="ml-3">
-              <p class="text-sm font-medium text-white">Tom Cook</p>
-              <p
-                class="text-xs font-medium text-gray-300 group-hover:text-gray-200"
-              >
-                View profile
-              </p>
-            </div>
-          </div>
-        </a>
-      </div>
+      <Sidebar/>
     </div>
   </div>
   <div class="flex flex-1 flex-col md:pl-64">
     <div
-      class="sticky top-0 z-10 bg-gray-100 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden"
+      class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-900 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden"
     >
       <button
+        on:click={() => isOpen = true}
         type="button"
         class="-ml-0.5 -mt-0.5 inline-flex h-12 w-12 items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
       >

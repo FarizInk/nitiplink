@@ -20,6 +20,9 @@
     .btn-primary.red-color {
         @apply text-white bg-red-600 hover:bg-red-700
     }
+    .btn-primary.green-color {
+        @apply text-white bg-green-600 hover:bg-green-700
+    }
 
     .btn-xs {
         @apply px-2.5 py-1.5 text-xs

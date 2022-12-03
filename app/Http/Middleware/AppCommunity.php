@@ -18,7 +18,7 @@ class AppCommunity
     public function handle(Request $request, Closure $next)
     {
         $community = Community::query()->where('prefix', str_replace("@", "", $request->prefix))->first();
-        if (!$community) abort(404);
+        if ($request->prefix[0] !== '@' || !$community) abort(404);
 
         return $next($request);
     }

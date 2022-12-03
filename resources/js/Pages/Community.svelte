@@ -27,7 +27,7 @@
         <ul class="divide-y divide-gray-200 dark:divide-gray-700">
           {#each $page.props.links as link, i}
             <li>
-              <div class="block hover:bg-gray-50 dark:hover:bg-gray-700 w-full">
+              <div class="block hover:bg-white dark:hover:bg-gray-800 w-full">
                 <div class="px-4 py-4 flex items-center sm:px-6">
                   <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                     <div class="truncate">

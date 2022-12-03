@@ -6,6 +6,8 @@
   import SlideCommunity from "./SlideCommunity.svelte";
   import ModalCreateCommunity from "./ModalCreateCommunity.svelte";
   import {page} from "@inertiajs/inertia-svelte";
+  import { Inertia } from "@inertiajs/inertia";
+  import { router } from "@/helpers";
 
   const menu = [
     // {
@@ -25,7 +27,7 @@
     },
     {
       name: 'Sign Out',
-      url: '/logout'
+      method: () => Inertia.post(router("logout")),
     },
   ];
 
@@ -152,9 +154,16 @@
                 >
                   <!-- Active: "bg-gray-100", Not Active: "" -->
                   {#each profileMenu as item, i}
-                    <a href={item.url} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                       role="menuitem"
-                       tabindex="-1">{item.name}</a>
+                    {#if item.method !== undefined}
+                      <button type="button" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left" on:click={() => item.method()}>
+                        {item.name}
+                      </button>
+                    {:else}
+                      <a href={item.url} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                        tabindex="-1">{item.name}
+                      </a>
+                    {/if}
                   {/each}
                 </MenuItems>
               </Transition>
@@ -192,8 +201,15 @@
           </div>
           <div class="mt-3 space-y-1 px-2 sm:px-3">
             {#each profileMenu as item, i}
-              <a href={item.url}
-                 class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">{item.name}</a>
+              {#if item.method !== undefined}
+                <button type="button" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white w-full text-left" on:click={() => item.method()}>
+                  {item.name}
+                </button>
+              {:else}
+                <a href={item.url} class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">
+                  {item.name}
+                </a>
+              {/if}
             {/each}
           </div>
         </div>

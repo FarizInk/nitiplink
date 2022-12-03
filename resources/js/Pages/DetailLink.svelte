@@ -43,7 +43,7 @@
         </div>
       {/if}
     </div>
-    {#if $page.props.user_community_role === 'owner' || $page.props.user_community_role === 'moderator' || $page.props.auth.user?.hash === $page.props.link.created_hash }
+    {#if $page.props.user_community_role === 'owner' || $page.props.user_community_role === 'moderator' || $page.props.auth.user?.hash === $page.props.link.created_by_hash }
       <div class="flex gap-2 mt-2 justify-end">
         <button type="button" on:click={() => destroy() } class="btn-primary btn-md red-color">
           Delete

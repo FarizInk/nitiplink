@@ -6,13 +6,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Veelasky\LaravelHashId\Eloquent\HashableId;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Link extends Model
 {
     use HasFactory, SoftDeletes, HashableId;
 
     protected $hidden = ['id'];
-    protected $appends = ['hash'];
+
+    protected $appends = [
+        'hash',
+        'created_by_hash',
+    ];
+
+    public function createdByHash(): Attribute
+    {
+        return Attribute::get(fn () => $this->created_by ? self::idToHash($this->created_by) : null);
+    }
 
     public function creator(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
