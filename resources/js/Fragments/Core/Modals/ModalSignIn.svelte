@@ -1,10 +1,9 @@
 <script>
-  import Modal from "../../Components/Modal.svelte"
-  import {addNotif} from "../../Stores/notification";
+  import Modal from "@/Components/Modal.svelte"
   import {useForm, page} from "@inertiajs/inertia-svelte";
-  import {loading, modalSignIn, modalSignUp} from "../../Stores/store";
-  import LoadingIcon from "../../Components/Icons/LoadingIcon.svelte";
-  import {router} from "../../helpers";
+  import {loading, modalSignIn, modalSignUp} from "@/Stores/store";
+  import LoadingIcon from "@/Components/Icons/LoadingIcon.svelte";
+  import {router} from "@/helpers";
 
   let form = useForm({
     username: null,

@@ -1,11 +1,11 @@
 <script>
   import Sidebar from "@/Fragments/Core/Community/Sidebar.svelte";
-  import ModalSettingCommunity from "@/Fragments/Core/ModalSettingCommunity.svelte";
-  import ModalFormLink from "@/Fragments/Core/ModalFormLink.svelte";
-  import SlideCommunity from "@/Fragments/Core/SlideCommunity.svelte";
-  import ModalCreateCommunity from "@/Fragments/Core/ModalCreateCommunity.svelte";
-  import ModalSignIn from "@/Fragments/Core/ModalSignIn.svelte";
-  import ModalSignUp from "@/Fragments/Core/ModalSignUp.svelte";
+  import ModalSettingCommunity from "@/Fragments/Core/Modals/ModalSettingCommunity.svelte";
+  import ModalFormLink from "@/Fragments/Core/Modals/ModalFormLink.svelte";
+  import SlideCommunity from "@/Fragments/Core/Slides/SlideCommunity.svelte";
+  import ModalCreateCommunity from "@/Fragments/Core/Modals/ModalCreateCommunity.svelte";
+  import ModalSignIn from "@/Fragments/Core/Modals/ModalSignIn.svelte";
+  import ModalSignUp from "@/Fragments/Core/Modals/ModalSignUp.svelte";
   import {Transition, TransitionChild} from '@rgossiaux/svelte-headlessui';
 
   export let title = null;

@@ -1,10 +1,10 @@
 <script>
-  import Modal from "../../Components/Modal.svelte"
-  import {addNotif} from "../../Stores/notification";
-  import {loading, modalCreateCommunity} from "../../Stores/store";
+  import Modal from "@/Components/Modal.svelte"
+  import {addNotif} from "@/Stores/notification";
+  import {loading, modalCreateCommunity} from "@/Stores/store";
   import {onMount} from "svelte"
-  import LoadingIcon from "../../Components/Icons/LoadingIcon.svelte";
-  import {router} from "../../helpers";
+  import LoadingIcon from "@/Components/Icons/LoadingIcon.svelte";
+  import {router} from "@/helpers";
 
   import {useForm} from '@inertiajs/inertia-svelte'
 

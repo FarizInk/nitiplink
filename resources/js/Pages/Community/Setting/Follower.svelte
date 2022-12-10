@@ -1,5 +1,4 @@
 <script>
-  import {spellReq} from "@/helpers";
   import {page} from "@inertiajs/inertia-svelte";
   import {Inertia} from "@inertiajs/inertia";
   import {router} from "@/helpers";

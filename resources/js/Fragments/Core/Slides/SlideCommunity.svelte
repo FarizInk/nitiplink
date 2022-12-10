@@ -1,9 +1,9 @@
 <script>
-  import SlideOver from "../../Components/SlideOver.svelte";
-  import {slideCommunity, modalCreateCommunity} from "../../Stores/store";
-  import {communities} from "../../Stores/store";
+  import SlideOver from "@/Components/SlideOver.svelte";
+  import {slideCommunity, modalCreateCommunity} from "@/Stores/store";
+  import {communities} from "@/Stores/store";
   import {InertiaLink, Link} from "@inertiajs/inertia-svelte"
-  import {spellReq, router} from "../../helpers";
+  import {spellReq, router} from "@/helpers";
 
   slideCommunity.subscribe((newVal) => {
     if (newVal) {

@@ -1,5 +1,5 @@
 <script>
-  import {spellReq, router} from "@/helpers";
+  import {router} from "@/helpers";
   import {page, useForm} from "@inertiajs/inertia-svelte";
   import LoadingIcon from "@/Components/Icons/LoadingIcon.svelte";
   import {Inertia} from "@inertiajs/inertia";

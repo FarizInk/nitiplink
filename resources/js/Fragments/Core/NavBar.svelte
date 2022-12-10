@@ -1,10 +1,10 @@
 <script>
   import {Transition, Menu, MenuButton, MenuItems} from '@rgossiaux/svelte-headlessui';
-  import ModalSignIn from "./ModalSignIn.svelte";
-  import ModalSignUp from "./ModalSignUp.svelte";
-  import {slideCommunity, modalSignIn, modalSignUp} from "../../Stores/store";
-  import SlideCommunity from "./SlideCommunity.svelte";
-  import ModalCreateCommunity from "./ModalCreateCommunity.svelte";
+  import ModalSignIn from "@/Fragments/Core/Modals/ModalSignIn.svelte";
+  import ModalSignUp from "@/Fragments/Core/Modals/ModalSignUp.svelte";
+  import {slideCommunity, modalSignIn, modalSignUp} from "@/Stores/store";
+  import SlideCommunity from "@/Fragments/Core/Slides/SlideCommunity.svelte";
+  import ModalCreateCommunity from "@/Fragments/Core/Modals/ModalCreateCommunity.svelte";
   import {page} from "@inertiajs/inertia-svelte";
   import { Inertia } from "@inertiajs/inertia";
   import { router } from "@/helpers";
