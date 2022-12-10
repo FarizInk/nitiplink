@@ -35,12 +35,10 @@ Route::middleware('auth')->prefix('api/private')->group(function () {
             Route::delete('/{link}', [\App\Http\Controllers\Core\LinkController::class, 'delete'])->name('delete');
         });
 
-        Route::get('/{community}/followers', [\App\Http\Controllers\Core\FollowerController::class, 'get'])->name('follower.get');
         Route::name('follower.')->prefix('{community}/follower')->group(function () {
             Route::post('/update', [\App\Http\Controllers\Core\FollowerController::class, 'update'])->name('update');
         });
 
-        Route::get('/{community}/webhooks', [\App\Http\Controllers\Core\WebhookController::class, 'get'])->name('webhook.get');
         Route::name('webhook.')->prefix('{community}/webhook')->group(function () {
             Route::post('/', [\App\Http\Controllers\Core\WebhookController::class, 'create'])->name('create');
             Route::delete('/{webhook}', [\App\Http\Controllers\Core\WebhookController::class, 'delete'])->name('delete');
@@ -48,10 +46,15 @@ Route::middleware('auth')->prefix('api/private')->group(function () {
     });
 });
 
-Route::middleware('app.community')->prefix('/{prefix}')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Core\CommunityController::class, 'indexPage'])->name('app.community');
-    Route::get('/{link}', [\App\Http\Controllers\Core\LinkController::class, 'detailPage'])->name('app.community.link.detail');
-    Route::name('setting.')->prefix('setting')->group(function () {
-        Route::get('/', [\App\Http\Controllers\Core\SettingController::class, 'get'])->name('get');
+Route::middleware('app.community')->name('app.community.')->prefix('/{prefix}')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Core\CommunityController::class, 'indexPage'])->name('index');
+
+    Route::name('setting.')->prefix('setting')->middleware('auth')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Core\SettingController::class, 'indexPage'])->name('index');
+        Route::get('/overview', [\App\Http\Controllers\Core\SettingController::class, 'overviewPage'])->name('overview');
+        Route::get('/follower', [\App\Http\Controllers\Core\SettingController::class, 'followerPage'])->name('follower');
+        Route::get('/webhook', [\App\Http\Controllers\Core\SettingController::class, 'webhookPage'])->name('webhook');
     });
+
+    Route::get('/{link}', [\App\Http\Controllers\Core\LinkController::class, 'detailPage'])->name('link');
 });

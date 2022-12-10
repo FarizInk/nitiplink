@@ -16,10 +16,9 @@ class LinkController extends Controller
 {
     public function detailPage($prefix, $link_hash): \Inertia\Response|\Inertia\ResponseFactory
     {
-        $baseData = CommunityHelper::getBaseData($prefix);
-        return Inertia::render('DetailLink', array_merge([
+        return Inertia::render('Community/DetailLink', [
             'link' => Link::byHash($link_hash)?->load(['creator', 'tags']),
-        ], $baseData));
+        ]);
     }
 
     private function validation(): array
@@ -95,7 +94,7 @@ class LinkController extends Controller
             $link->delete();
         }
 
-        return redirect()->route('app.community', '@' . $community->prefix);
+        return redirect()->route('app.community.index', '@' . $community->prefix);
     }
 
     public function sendWebhook($url, $content, $title, $description, $tags, $communityName, $communityPrefix, $userName, $createdAt): bool|string

@@ -17,9 +17,9 @@ class CommunityController extends Controller
     {
         $baseData = CommunityHelper::getBaseData($prefix);
         $links = Link::query()->where('community_id', $baseData['community']->id)->with(['creator', 'tags'])->orderBy('created_at', 'desc')->get();
-        return Inertia::render('Community', array_merge([
+        return Inertia::render('Community/Index', [
             'links' => $links,
-        ], $baseData));
+        ]);
     }
 
     public function get(): \Illuminate\Http\JsonResponse

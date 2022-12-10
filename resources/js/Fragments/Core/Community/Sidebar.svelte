@@ -1,13 +1,12 @@
 <script>
-  import { page } from "@inertiajs/inertia-svelte";
+  import {page, InertiaLink} from "@inertiajs/inertia-svelte";
   import {
-    modalSettingCommunity,
     modalSignIn,
     selectedLink,
     modalFormLink
   } from "@/Stores/store";
-  import { Inertia } from "@inertiajs/inertia";
-  import { router } from "@/helpers";
+  import {Inertia} from "@inertiajs/inertia";
+  import {router} from "@/helpers";
   import {Transition, Menu, MenuButton, MenuItems} from '@rgossiaux/svelte-headlessui';
 
   const follow = () => {
@@ -15,14 +14,14 @@
       modalSignIn.set(true);
     } else {
       Inertia.post(
-        router("community.follow", { community: $page.props.community.hash })
+        router("community.follow", {community: $page.props.community.hash})
       );
     }
   };
 
   const unfollow = () => {
     Inertia.post(
-      router("community.unfollow", { community: $page.props.community.hash })
+      router("community.unfollow", {community: $page.props.community.hash})
     );
   };
 
@@ -139,9 +138,8 @@
       </div>
     </div>
     {#if $page.props.user_community_role === "owner" || $page.props.user_community_role === "moderator"}
-      <button
-        type="button"
-        on:click={() => modalSettingCommunity.set(true)}
+      <InertiaLink
+        href="{decodeURIComponent(router('app.community.setting.index', {prefix: '@' + $page.props.community.prefix}))}"
         class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-full"
       >
         <svg
@@ -157,7 +155,7 @@
           />
         </svg>
         Settings
-      </button>
+      </InertiaLink>
     {/if}
   </div>
 </div>
@@ -193,7 +191,8 @@
 <div class="flex flex-shrink-0 bg-gray-700 p-4">
   {#if $page.props.auth.user !== null}
     <Menu let:open as="div" class="group block w-full flex-shrink-0">
-      <MenuButton as="button" class="flex items-center" id="sidebar-menu-button" aria-expanded="false" aria-haspopup="true">
+      <MenuButton as="button" class="flex items-center" id="sidebar-menu-button" aria-expanded="false"
+                  aria-haspopup="true">
         <div>
           <img
             class="inline-block h-9 w-9 rounded-full"
@@ -234,13 +233,14 @@
           <!-- Active: "bg-gray-100", Not Active: "" -->
           {#each profileMenu as item, i}
             {#if item.method !== undefined}
-            <button type="button" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left" on:click={() => item.method()}>
-              {item.name}
-            </button>
+              <button type="button" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+                      on:click={() => item.method()}>
+                {item.name}
+              </button>
             {:else}
               <a href={item.url} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                role="menuitem"
-                tabindex="-1">
+                 role="menuitem"
+                 tabindex="-1">
                 {item.name}
               </a>
             {/if}

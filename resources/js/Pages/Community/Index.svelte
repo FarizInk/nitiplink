@@ -1,14 +1,7 @@
 <script>
-  import {page} from "@inertiajs/inertia-svelte"
-  import {selectedLink} from "@/Stores/store";
-  import CommunityFragment from "@/Fragments/Core/CommunityFragment.svelte";
-  import {Inertia} from "@inertiajs/inertia";
+  import {page, InertiaLink} from "@inertiajs/inertia-svelte"
   import {router} from "@/helpers";
   import CommunityLayout from "@/Layouts/CommunityLayout.svelte";
-
-  const openDetail = (link) => {
-    Inertia.visit('/@' + $page.props.community.prefix + '/' + link.hash)
-  }
 </script>
 
 <CommunityLayout>
@@ -68,7 +61,7 @@
                       <!--                                            </div>-->
                     </div>
                   </div>
-                  <button on:click={() => openDetail(link)} class="ml-5 flex-shrink-0">
+                  <InertiaLink href={decodeURIComponent(router('app.community.link', {prefix: '@' + $page.props.community.prefix, link: link.hash}))} class="ml-5 flex-shrink-0">
                     <!-- Heroicon name: solid/chevron-right -->
                     <svg
                       class="h-5 w-5 text-gray-400"
@@ -83,7 +76,7 @@
                         clip-rule="evenodd"
                       />
                     </svg>
-                  </button>
+                  </InertiaLink>
                 </div>
               </div>
             </li>

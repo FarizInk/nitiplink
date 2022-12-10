@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Community;
+use App\Models\CommunityUser;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -36,10 +38,17 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $communityData = [];
+        if ($request->prefix) {
+            $community = Community::query()->where('prefix', str_replace("@", "", $request->prefix))->first();
+            $communityRole = auth()->check() ? CommunityUser::query()->where('user_id', auth()->user()->id)->where('community_id', $community->id)->first() : null;
+            $communityData =  [
+                'community' => $community,
+                'user_community_role' => $communityRole?->value('role'),
+            ];
+        }
         return array_merge(parent::share($request), [
-            'auth.user' => fn () => $request->user()
-                ? $request->user()
-                : null,
-        ]);
+            'auth.user' => fn () => $request->user() ? $request->user() : null,
+        ], $communityData);
     }
 }
