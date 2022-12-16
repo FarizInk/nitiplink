@@ -1,8 +1,7 @@
 <script>
   import Modal from "@/Components/Modal.svelte"
-  import {addNotif} from "@/Stores/notification";
   import {useForm, page} from "@inertiajs/inertia-svelte";
-  import {loading, modalFormLink, selectedLink} from "@/Stores/store";
+  import {modalFormLink, selectedLink} from "@/Stores/store";
   import LoadingIcon from "@/Components/Icons/LoadingIcon.svelte";
   import InputTag from "@/Components/InputTag.svelte";
   import {router} from "@/helpers";
@@ -120,7 +119,7 @@
 
         <div class="flex justify-end items-center gap-2">
           <button type="submit" class="btn-primary btn-md primary-color" disabled={$form.processing}>
-            {#if $form.processing || $loading}
+            {#if $form.processing}
               <LoadingIcon class="-ml-1 mr-2 h-4 w-4"/>
             {/if}
             <span>{$selectedLink === null ? 'Create!' : 'Update!'}</span>

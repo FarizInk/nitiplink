@@ -1,21 +1,20 @@
 <script>
   import Sidebar from "@/Fragments/Core/Community/Sidebar.svelte";
-  import ModalSettingCommunity from "@/Fragments/Core/Modals/ModalSettingCommunity.svelte";
   import ModalFormLink from "@/Fragments/Core/Modals/ModalFormLink.svelte";
   import SlideCommunity from "@/Fragments/Core/Slides/SlideCommunity.svelte";
   import ModalCreateCommunity from "@/Fragments/Core/Modals/ModalCreateCommunity.svelte";
   import ModalSignIn from "@/Fragments/Core/Modals/ModalSignIn.svelte";
   import ModalSignUp from "@/Fragments/Core/Modals/ModalSignUp.svelte";
   import {Transition, TransitionChild} from '@rgossiaux/svelte-headlessui';
+  import {sidebarMobile} from "@/Stores/store";
 
   export let title = null;
   export let buttonBack = false;
   export let maxW = 'max-w-4xl'
-  let isOpen = false;
 </script>
 
 <div>
-  <Transition appear show={isOpen} class="relative z-40 md:hidden">
+  <Transition appear show={$sidebarMobile} class="relative z-40 md:hidden">
     <TransitionChild
       enter="transition-opacity ease-linear duration-300"
       enterFrom="opacity-0"
@@ -23,7 +22,7 @@
       leave="transition-opacity ease-linear duration-300"
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
-      class="fixed inset-0 bg-gray-600 bg-opacity-75"
+      class="fixed inset-0 bg-gray-600 dark:bg-gray-900 bg-opacity-75 dark:bg-opacity-75"
     >
     </TransitionChild>
 
@@ -47,7 +46,7 @@
           class="absolute top-0 right-0 -mr-12 pt-2"
         >
           <button
-            on:click={() => isOpen = false}
+            on:click={() => sidebarMobile.set(false)}
             type="button"
             class="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:ousticky top-0 z-10 sm:pl-3 sm:pt-3 md:hiddentline-none focus:ring-2 focus:ring-inset focus:ring-white"
           >
@@ -88,12 +87,12 @@
   </div>
   <div class="flex flex-1 flex-col md:pl-64">
     <div
-      class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-900 pl-1 pt-1 sm:pl-3 sm:pt-3 md:hidden"
+      class="sticky top-0 z-10 bg-gray-100 dark:bg-gray-900 shadow-lg py-1 px-1 sm:py-3 sm:px-3 md:hidden"
     >
       <button
-        on:click={() => isOpen = true}
+        on:click={() => sidebarMobile.set(true)}
         type="button"
-        class="-ml-0.5 -mt-0.5 inline-flex h-12 w-12 items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+        class="-ml-0.5 -mt-0.5 inline-flex h-12 w-12 items-center justify-center rounded-md text-gray-500 dark:text-gray-100 hover:text-gray-900 dark:hover:text-gray-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
       >
         <span class="sr-only">Open sidebar</span>
         <!-- Heroicon name: outline/bars-3 -->
@@ -115,9 +114,9 @@
       </button>
     </div>
     <main class="flex-1 bg-white dark:bg-gray-900 min-h-screen">
-      <div class="py-6">
+      <div class="py-2 md:py-6">
         {#if title !== null}
-        <div class="mx-auto {maxW} px-4 sm:px-6 lg:px-8 mb-3 flex gap-2 items-center">
+        <div class="mx-auto {maxW} px-4 sm:px-6 lg:px-8 mb-5 flex gap-3 items-center">
           {#if history.length >= 1 && buttonBack}
             <button class="rounded-full p-2 btn-md btn-primary primary-color" on:click={() => history.back()}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
@@ -130,7 +129,7 @@
           <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{title}</h1>
         </div>
         {/if}
-        <div class="mx-auto {maxW} px-4 sm:px-6 md:px-8">
+        <div class="mx-auto {maxW}">
           <!-- Replace with your content -->
           <slot />
           <!-- /End replace -->
@@ -141,7 +140,6 @@
 </div>
 
 <ModalFormLink/>
-<ModalSettingCommunity/>
 <ModalSignIn/>
 <ModalSignUp/>
 <SlideCommunity/>

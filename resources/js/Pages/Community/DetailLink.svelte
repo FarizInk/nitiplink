@@ -16,7 +16,7 @@
 </script>
 
 <CommunityLayout title="Detail Link" buttonBack={true}>
-  <div class="flex flex-col gap-2 text-gray-900 dark:text-white mt-4">
+  <div class="flex flex-col gap-2 text-gray-900 dark:text-white px-4 sm:px-6 md:px-8">
     <a href={$page.props.link.url} target="_blank"
        rel="noreferrer"
        class="font-medium text-indigo-600 truncate hover:underline hover:decoration-dashed underline-offset-4">{$page.props.link.url}</a>

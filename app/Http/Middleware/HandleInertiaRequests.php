@@ -39,7 +39,7 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $communityData = [];
-        if ($request->prefix) {
+        if ($request->prefix && $request->prefix[0] === '@') {
             $community = Community::query()->where('prefix', str_replace("@", "", $request->prefix))->first();
             $communityRole = auth()->check() ? CommunityUser::query()->where('user_id', auth()->user()->id)->where('community_id', $community->id)->first() : null;
             $communityData =  [

@@ -1,8 +1,6 @@
 <script>
   import Modal from "@/Components/Modal.svelte"
-  import {addNotif} from "@/Stores/notification";
-  import {loading, modalCreateCommunity} from "@/Stores/store";
-  import {onMount} from "svelte"
+  import {modalCreateCommunity} from "@/Stores/store";
   import LoadingIcon from "@/Components/Icons/LoadingIcon.svelte";
   import {router} from "@/helpers";
 
@@ -14,7 +12,6 @@
   })
 
   const create = () => {
-    loading.set(true);
     $form.post(router('community.create'), {
       onSuccess: () => {
         $form.reset();
@@ -72,7 +69,7 @@
 
         <div class="flex justify-end items-center gap-2">
           <button type="submit" class="btn-primary btn-md primary-color" disabled={$form.processing}>
-            {#if $form.processing || $loading}
+            {#if $form.processing}
               <LoadingIcon class="-ml-1 mr-2 h-4 w-4"/>
             {/if}
             <span>Create!</span>

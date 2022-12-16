@@ -5,7 +5,7 @@
   import {slideCommunity, modalSignIn, modalSignUp} from "@/Stores/store";
   import SlideCommunity from "@/Fragments/Core/Slides/SlideCommunity.svelte";
   import ModalCreateCommunity from "@/Fragments/Core/Modals/ModalCreateCommunity.svelte";
-  import {page} from "@inertiajs/inertia-svelte";
+  import {page, InertiaLink} from "@inertiajs/inertia-svelte";
   import { Inertia } from "@inertiajs/inertia";
   import { router } from "@/helpers";
 
@@ -19,11 +19,11 @@
   const profileMenu = [
     {
       name: 'Your Profile',
-      url: '/profile'
+      url: router('profile.basic')
     },
     {
-      name: 'Settings',
-      url: '/setting'
+      name: 'Community',
+      method: () => slideCommunity.set(true),
     },
     {
       name: 'Sign Out',
@@ -73,53 +73,36 @@
           </div>
         {/if}
         <div class="flex flex-shrink-0 items-center">
-          <svg
-            class="w-8 h-8 text-indigo-500"
-            viewBox="0 0 170 229"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0.16932 0.778884L1.41032 200.848L51.7966 165.228L51.5343 122.86L169.29 228.054L168.068 30.9264L117.699 69.4885L117.944 108.914L0.16932 0.778884Z"
-              fill="currentColor"
-            />
-          </svg>
+          <InertiaLink href={router('landing')}>
+            <svg
+              class="w-8 h-8 text-indigo-500"
+              viewBox="0 0 170 229"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0.16932 0.778884L1.41032 200.848L51.7966 165.228L51.5343 122.86L169.29 228.054L168.068 30.9264L117.699 69.4885L117.944 108.914L0.16932 0.778884Z"
+                fill="currentColor"
+              />
+            </svg>
+          </InertiaLink>
         </div>
         <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
           <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
           {#each menu as item, i}
-            <a href={item.url}
-               class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{item.name}</a>
+            <InertiaLink href={item.url}
+               class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{item.name}</InertiaLink>
           {/each}
         </div>
       </div>
       <div class="flex items-center">
         <div class="flex-shrink-0 flex gap-2">
-          {#if $page.props.auth.user !== null}
-            <button type="button"
-                    on:click={() => slideCommunity.set(true)}
-                    class="btn-md btn-primary primary-color">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                   class="-ml-1 mr-2 h-5 w-5">
-                <path fill-rule="evenodd"
-                      d="M8.25 6.75a3.75 3.75 0 117.5 0 3.75 3.75 0 01-7.5 0zM15.75 9.75a3 3 0 116 0 3 3 0 01-6 0zM2.25 9.75a3 3 0 116 0 3 3 0 01-6 0zM6.31 15.117A6.745 6.745 0 0112 12a6.745 6.745 0 016.709 7.498.75.75 0 01-.372.568A12.696 12.696 0 0112 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 01-.372-.568 6.787 6.787 0 011.019-4.38z"
-                      clip-rule="evenodd"/>
-                <path
-                  d="M5.082 14.254a8.287 8.287 0 00-1.308 5.135 9.687 9.687 0 01-1.764-.44l-.115-.04a.563.563 0 01-.373-.487l-.01-.121a3.75 3.75 0 013.57-4.047zM20.226 19.389a8.287 8.287 0 00-1.308-5.135 3.75 3.75 0 013.57 4.047l-.01.121a.563.563 0 01-.373.486l-.115.04c-.567.2-1.156.349-1.764.441z"/>
-              </svg>
-
-              <span>Community</span>
+          {#if $page.props.auth.user === null}
+            <button type="button" on:click={() => modalSignIn.set(true)} class="btn-primary btn-md primary-color">
+              Sign In
             </button>
-          {:else}
-            <button type="button"
-                    on:click={() => modalSignIn.set(true)}
-                    class="btn-primary btn-md primary-color">
-              <span>Sign In</span>
-            </button>
-            <button type="button"
-                    on:click={() => modalSignUp.set(true)}
-                    class="btn-simple btn-md">
-              <span>Sign Up</span>
+            <button type="button" on:click={() => modalSignUp.set(true)} class="btn-simple btn-md">
+              Sign Up
             </button>
           {/if}
         </div>
@@ -159,10 +142,10 @@
                         {item.name}
                       </button>
                     {:else}
-                      <a href={item.url} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      <InertiaLink href={item.url} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         role="menuitem"
                         tabindex="-1">{item.name}
-                      </a>
+                      </InertiaLink>
                     {/if}
                   {/each}
                 </MenuItems>
@@ -181,8 +164,8 @@
         <div class="space-y-1 px-2 pt-2 pb-3 sm:px-3">
           <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
           {#each menu as item, i}
-            <a href={item.url}
-               class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">{item.name}</a>
+            <InertiaLink href={item.url}
+               class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">{item.name}</InertiaLink>
           {/each}
         </div>
       {/if}
@@ -206,9 +189,9 @@
                   {item.name}
                 </button>
               {:else}
-                <a href={item.url} class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">
+                <InertiaLink href={item.url} class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">
                   {item.name}
-                </a>
+                </InertiaLink>
               {/if}
             {/each}
           </div>

@@ -3,7 +3,9 @@
   import {
     modalSignIn,
     selectedLink,
-    modalFormLink
+    modalFormLink,
+    sidebarMobile,
+    slideCommunity,
   } from "@/Stores/store";
   import {Inertia} from "@inertiajs/inertia";
   import {router} from "@/helpers";
@@ -14,14 +16,26 @@
       modalSignIn.set(true);
     } else {
       Inertia.post(
-        router("community.follow", {community: $page.props.community.hash})
+        router("community.follow", {community: $page.props.community.hash}),
+        null,
+        {
+          onFinish: () => {
+            sidebarMobile.set(false);
+          }
+        }
       );
     }
   };
 
   const unfollow = () => {
     Inertia.post(
-      router("community.unfollow", {community: $page.props.community.hash})
+      router("community.unfollow", {community: $page.props.community.hash}),
+      null,
+      {
+        onFinish: () => {
+          sidebarMobile.set(false);
+        }
+      }
     );
   };
 
@@ -39,8 +53,8 @@
       url: '/profile'
     },
     {
-      name: 'Settings',
-      url: '/setting'
+      name: 'Community',
+      method: () => slideCommunity.set(true),
     },
     {
       name: 'Sign Out',
@@ -49,6 +63,7 @@
   ];
 
   const createLink = () => {
+    sidebarMobile.set(false);
     selectedLink.set(null);
     modalFormLink.set(true);
   }
@@ -139,6 +154,7 @@
     </div>
     {#if $page.props.user_community_role === "owner" || $page.props.user_community_role === "moderator"}
       <InertiaLink
+        on:click={() => sidebarMobile.set(false)}
         href="{decodeURIComponent(router('app.community.setting.index', {prefix: '@' + $page.props.community.prefix}))}"
         class="text-gray-300 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md w-full"
       >
@@ -223,7 +239,7 @@
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
         as="div"
-        class="absolute right-0 bottom-14 z-10 mt-2 w-48 origin-bottom-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="absolute right-4 bottom-14 z-10 mt-2 w-48 origin-bottom-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <MenuItems
           static
@@ -238,11 +254,11 @@
                 {item.name}
               </button>
             {:else}
-              <a href={item.url} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              <InertiaLink href={item.url} class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                  role="menuitem"
                  tabindex="-1">
                 {item.name}
-              </a>
+              </InertiaLink>
             {/if}
           {/each}
         </MenuItems>

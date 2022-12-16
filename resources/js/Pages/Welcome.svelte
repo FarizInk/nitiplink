@@ -1,5 +1,5 @@
 <script>
-  import AppLayout from "../Layouts/AppLayout.svelte";
+  import AppLayout from "@/Layouts/AppLayout.svelte";
 </script>
 
 <AppLayout>

@@ -5,9 +5,11 @@
 </script>
 
 <CommunityLayout>
-  {#if $page.props.links.length === 0}
+  <div class="px-0 sm:px-6 md:px-8">
+    {#if $page.props.links.length === 0}
       <div class="text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="mx-auto h-12 w-12 text-gray-400">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+             class="mx-auto h-12 w-12 text-gray-400">
           <path stroke-linecap="round" stroke-linejoin="round"
                 d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/>
         </svg>
@@ -25,7 +27,8 @@
                   <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                     <div class="truncate">
                       <div class="flex items-center gap-2 text-sm group">
-                        <a href={link.url} target="_blank" rel="noreferrer" class="font-medium text-indigo-600 truncate hover:underline hover:decoration-dashed underline-offset-4">{link.url}</a>
+                        <a href={link.url} target="_blank" rel="noreferrer"
+                           class="font-medium text-indigo-600 truncate hover:underline hover:decoration-dashed underline-offset-4">{link.url}</a>
                       </div>
                       <div class="mt-2 flex">
                         <div class="flex items-center gap-2 text-sm text-gray-500">
@@ -49,19 +52,21 @@
                         </div>
                       </div>
                     </div>
-                    <div class="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
-                      <!--                                            <div class="flex overflow-hidden -space-x-1">-->
-                      <!--                                                {#each Array(4) as _, i}-->
-                      <!--                                                    <img-->
-                      <!--                                                        class="inline-block h-6 w-6 rounded-full ring-2 ring-white"-->
-                      <!--                                                        src={`https://ui-avatars.com/api/?name=${encodeURI('Fariz')}&background=5046e5&color=fff`}-->
-                      <!--                                                        alt="Fariz"-->
-                      <!--                                                    />-->
-                      <!--                                                {/each}-->
-                      <!--                                            </div>-->
-                    </div>
+<!--                    <div class="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">-->
+<!--                      <div class="flex overflow-hidden -space-x-1">-->
+<!--                        {#each Array(4) as _, i}-->
+<!--                          <img-->
+<!--                            class="inline-block h-6 w-6 rounded-full ring-2 ring-white"-->
+<!--                            src={`https://ui-avatars.com/api/?name=${encodeURI('Fariz')}&background=5046e5&color=fff`}-->
+<!--                            alt="Fariz"-->
+<!--                          />-->
+<!--                        {/each}-->
+<!--                      </div>-->
+<!--                    </div>-->
                   </div>
-                  <InertiaLink href={decodeURIComponent(router('app.community.link', {prefix: '@' + $page.props.community.prefix, link: link.hash}))} class="ml-5 flex-shrink-0">
+                  <InertiaLink
+                    href={decodeURIComponent(router('app.community.link', {prefix: '@' + $page.props.community.prefix, link: link.hash}))}
+                    class="ml-5 flex-shrink-0">
                     <!-- Heroicon name: solid/chevron-right -->
                     <svg
                       class="h-5 w-5 text-gray-400"
@@ -84,4 +89,5 @@
         </ul>
       </div>
     {/if}
+  </div>
 </CommunityLayout>

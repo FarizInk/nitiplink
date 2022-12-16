@@ -1,6 +1,6 @@
 <script>
   import Modal from "@/Components/Modal.svelte"
-  import {loading, modalSignIn, modalSignUp} from "@/Stores/store";
+  import {modalSignIn, modalSignUp} from "@/Stores/store";
   import LoadingIcon from "@/Components/Icons/LoadingIcon.svelte";
   import {router} from "@/helpers";
   import {useForm} from '@inertiajs/inertia-svelte'
@@ -117,7 +117,7 @@
           </button>
 
           <button type="submit" class="btn-primary btn-md primary-color" disabled={$form.processing}>
-            {#if $form.processing || $loading}
+            {#if $form.processing}
               <LoadingIcon class="-ml-1 mr-2 h-4 w-4"/>
             {/if}
             <span>Sign Up</span>

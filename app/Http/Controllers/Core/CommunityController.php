@@ -49,7 +49,7 @@ class CommunityController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'prefix' => ['required', 'string', 'max:255', 'unique:communities', 'alpha_dash'],
+            'prefix' => ['required', 'string', 'min:3', 'max:255', 'unique:communities', 'alpha_dash'],
         ]);
 
         $userId = auth()->user()->id;

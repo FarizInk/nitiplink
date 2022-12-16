@@ -1,5 +1,5 @@
 import {addNotif} from "./Stores/notification";
-import {loading} from "./Stores/store";
+import {globalLoading} from "./Stores/store";
 
 export function showError(error) {
   if (error.response !== undefined) {
@@ -19,11 +19,11 @@ export function spellReq({method = 'get', url, data = null, callbackRes, callbac
   a.method = method
   a.url = url
   if (data !== null) a.data = data
-  loading.set(true);
+  globalLoading.set(true);
   axios(a)
     .then((response) => (!callbackRes) ? console.log(response) : callbackRes(response))
     .catch((error) => (!callbackErr) ? handleAxiosError() : callbackErr(error))
-    .finally(() => loading.set(false));
+    .finally(() => globalLoading.set(false));
 }
 
 export function router(name, param = null) {

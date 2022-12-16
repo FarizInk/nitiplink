@@ -41,7 +41,7 @@
 </script>
 
 <CommunityLayout title="Follower Setting" buttonBack={true}>
-  <div class="flex flex-col gap-2">
+  <div class="flex flex-col gap-2 px-4 sm:px-6 md:px-8">
     {#each $page.props.followers?.data as item, i}
       <div class="bg-gray-800 rounded-lg overflow-hidden text-black dark:text-white">
         <div class="relative flex items-center space-x-3 py-2 px-4 hover:bg-gray-700 rounded-lg hover:cursor-pointer"

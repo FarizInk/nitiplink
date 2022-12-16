@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', fn () => inertia('Welcome'))->name('landing');
+Route::get('/profile', fn () => inertia('Welcome'))->name('landing');
+Route::middleware('auth')->prefix('profile')->name('profile.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Core\UserController::class, 'basicProfilePage'])->name('basic');
+    Route::post('/', [\App\Http\Controllers\Core\UserController::class, 'updateBasic'])->name('basic.action');
+    Route::get('/change-email', [\App\Http\Controllers\Core\UserController::class, 'changeEmailPage'])->name('change-email');
+    Route::post('/change-email', [\App\Http\Controllers\Core\UserController::class, 'updateEmail'])->name('change-email.action');
+    Route::get('/change-password', [\App\Http\Controllers\Core\UserController::class, 'changePasswordPage'])->name('change-password');
+    Route::post('/change-password', [\App\Http\Controllers\Core\UserController::class, 'updatePassword'])->name('change-password.action');
+    Route::get('/bind', [\App\Http\Controllers\Core\UserController::class, 'bindProfilePage'])->name('bind');
+    Route::post('/bind/token', [\App\Http\Controllers\Core\UserController::class, 'generateToken'])->name('bind.token');
+    Route::post('/bind/unbind', [\App\Http\Controllers\Core\UserController::class, 'unbind'])->name('bind.unbind');
+});
 Route::post('/login', [\App\Http\Controllers\Core\AuthController::class, 'login'])->name('login');
 Route::post('/register', [\App\Http\Controllers\Core\AuthController::class, 'register'])->name('register');
 Route::post('/logout', [\App\Http\Controllers\Core\AuthController::class, 'logout'])->name('logout');

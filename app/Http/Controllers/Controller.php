@@ -10,4 +10,12 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    static function responseJSON($data = null, $message = null, $code = 200): \Illuminate\Http\JsonResponse
+    {
+        return response()->json([
+            'payload' => $data,
+            'message' => $message,
+        ], $code);
+    }
 }

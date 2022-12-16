@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+Route::middleware('bot')->prefix('bot')->group(function () {
+    Route::post('/check', [\App\Http\Controllers\Api\BotController::class, 'check']);
+    Route::post('/bind-account', [\App\Http\Controllers\Api\BotController::class, 'bindAccount']);
+    Route::post('/create-link', [\App\Http\Controllers\Api\BotController::class, 'createLink']);
+});
