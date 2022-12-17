@@ -13,7 +13,8 @@
         "laravel/sanctum": "^2.15.1",
         "laravel/tinker": "^2.7.2",
         "tightenco/ziggy": "^1.5",
-        "veelasky/laravel-hashid": "^3.1"
+        "veelasky/laravel-hashid": "^3.1",
+        "ext-curl": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.19",

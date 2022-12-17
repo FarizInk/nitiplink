@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\LinkAction;
 use App\Enums\CommunityRole;
 use App\Http\Controllers\Controller;
 use App\Models\AccountBind;
@@ -10,6 +11,7 @@ use App\Models\CommunityUser;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\ValidationException;
 
 class BotController extends Controller
@@ -25,7 +27,9 @@ class BotController extends Controller
             'user_id' => 'required|string', // discord user id
         ]);
 
-        $community = Community::query()->where('prefix', str_replace("@", "", $request->prefix))->first();
+        $community = Community::query()
+            ->where('prefix', str_replace("@", "", $request->prefix))
+            ->first();
         if (!$community) {
             return $this->responseJSON(false, message: "community prefix not found!", code: 422);
         }
@@ -76,8 +80,29 @@ class BotController extends Controller
         return $this->responseJSON(data: [], message: 'token not found!', code: 404);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ValidationException
+     */
     public function createLink(Request $request): \Illuminate\Http\JsonResponse
     {
-        return $this->responseJSON();
+        $request->validate([
+            'prefix' => 'required|string',
+            'user_id' => 'required|string', // discord user id
+        ]);
+
+        $community = Community::query()
+            ->where('prefix', str_replace("@", "", $request->prefix))
+            ->firstOrFail();
+        $bind = AccountBind::query()
+            ->where('type', 'discord')
+            ->where('bind_credential', $request->user_id)
+            ->with('user')
+            ->first();
+
+        $link = (new LinkAction())->create($request->all(), $community, $bind->user);
+
+        return $this->responseJSON(data: URL::to('/@' . $community->prefix . '/' . $link->hash), message: 'Your link has been submited!');
     }
 }
