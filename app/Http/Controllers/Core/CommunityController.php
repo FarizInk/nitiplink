@@ -13,10 +13,17 @@ use Inertia\Inertia;
 
 class CommunityController extends Controller
 {
-    public function indexPage($prefix): \Inertia\Response|\Inertia\ResponseFactory
+    public function indexPage($prefix, Request $request): \Inertia\Response|\Inertia\ResponseFactory
     {
         $baseData = CommunityHelper::getBaseData($prefix);
-        $links = Link::query()->where('community_id', $baseData['community']->id)->with(['creator', 'tags'])->orderBy('created_at', 'desc')->get();
+        $links = Link::query()
+            ->where('community_id', $baseData['community']->id)
+            ->when($request->q, function ($query, $q) {
+                $query->where('url', 'LIKE', '%' . $q . '%');
+            })
+            ->with(['creator', 'tags'])
+            ->orderBy('created_at', 'desc')
+            ->get();
         return Inertia::render('Community/Index', [
             'links' => $links,
         ]);

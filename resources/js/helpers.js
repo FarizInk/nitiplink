@@ -31,3 +31,16 @@ export function router(name, param = null) {
   const regex = /^(http|https):\/\/[^:\/]+(?::(\d+))?/;
   return rawRoute.replace(rawRoute.match(regex)[1], location.protocol.slice(0, -1));
 }
+
+export function urlParser() {
+  const urlParams = new URLSearchParams(window.location.search)
+  const data = {}
+  const keys = urlParams.keys()
+  const values = urlParams.values()
+
+  for (const key of keys) {
+    data[key] = values.next().value
+  }
+
+  return data
+}

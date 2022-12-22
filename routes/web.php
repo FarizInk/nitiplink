@@ -58,6 +58,7 @@ Route::middleware('auth')->prefix('api/private')->group(function () {
     });
 });
 
+// Community Page
 Route::middleware('app.community')->name('app.community.')->prefix('/{prefix}')->group(function () {
     Route::get('/', [\App\Http\Controllers\Core\CommunityController::class, 'indexPage'])->name('index');
 
