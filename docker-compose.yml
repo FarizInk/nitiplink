@@ -101,7 +101,7 @@ services:
     image: quay.io/soketi/soketi:latest-16-alpine
     restart: unless-stopped
     ports:
-      - 6001
+      - "6001"
     logging:
       options:
         max-size: "10m"
