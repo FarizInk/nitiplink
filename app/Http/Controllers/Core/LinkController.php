@@ -42,7 +42,7 @@ class LinkController extends Controller
             'url' => 'required|url',
             'note' => 'nullable',
             'tags' => 'array',
-            'tags.*' => 'string|max:255|alpha_dash'
+            'tags.*' => 'string|max:255|regex:/^[\w\-\s]+$/'
         ];
     }
 
